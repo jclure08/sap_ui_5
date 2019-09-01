@@ -1,0 +1,20 @@
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+	<edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="SURT_SRV">
+			<EntityType Name="Authority">
+				<Key><PropertyRef Name="code"/></Key><Property Name="code" Type="Edm.String"/><Property Name="name" Type="Edm.String"/></EntityType>
+			<EntityType Name="Company">
+				<Key><PropertyRef Name="id"/></Key><Property Name="id" Type="Edm.Int64"/><Property Name="companyName" Type="Edm.String"/></EntityType>
+			<EntityType Name="User" Abstract="true">
+				<Key><PropertyRef Name="id"/></Key><Property Name="id" Type="Edm.Int32"/><Property Name="accountType" Type="Edm.String"/><Property Name="firstName" Type="Edm.String"/><Property Name="lastName" Type="Edm.String"/><Property Name="website" Type="Edm.String"/><Property Name="phoneNumber" Type="Edm.String"/><Property Name="email" Type="Edm.String"/><Property Name="username" Type="Edm.String"/><Property Name="activated" Type="Edm.Boolean"/><Property Name="imageUrl" Type="Edm.String"/><NavigationProperty Name="manager" Relationship="SURT_SRV.r_User-r_User" FromRole="r_User" ToRole="r_User"/><NavigationProperty Name="company" Relationship="SURT_SRV.r_Company-r_User" FromRole="r_User" ToRole="r_Company"/><NavigationProperty Name="subordinates" Relationship="SURT_SRV.r_User-r_User" FromRole="r_User" ToRole="r_User"/><NavigationProperty Name="authorities" Relationship="SURT_SRV.r_Authority-r_User" FromRole="r_User" ToRole="r_Authority"/></EntityType>
+			<Association Name="r_User-r_User"><End Type="SURT_SRV.User" Multiplicity="1" Role="r_User"/><End Type="SURT_SRV.User" Multiplicity="1" Role="r_User"/></Association>
+			<Association Name="r_Authority-r_User"><End Type="SURT_SRV.User" Multiplicity="1" Role="r_User"/><End Type="SURT_SRV.Authority" Multiplicity="*" Role="r_Authority"/></Association>
+			<Association Name="r_Company-r_User"><End Type="SURT_SRV.User" Multiplicity="1" Role="r_User"/><End Type="SURT_SRV.Company" Multiplicity="1" Role="r_Company"/></Association>
+			<EntityContainer Name="DefaultContainer" m:IsDefaultEntityContainer="true"><EntitySet Name="Authority" EntityType="SURT_SRV.Authority"/><EntitySet Name="Company" EntityType="SURT_SRV.Company"/><EntitySet Name="User" EntityType="SURT_SRV.User"/>
+				<AssociationSet Name="r_User-r_User" Association="SURT_SRV.r_User-r_User"><End EntitySet="User" Role="r_User"/><End EntitySet="User" Role="r_User"/></AssociationSet>
+				<AssociationSet Name="r_Authority-r_User" Association="SURT_SRV.r_Authority-r_User"><End EntitySet="User" Role="r_User"/><End EntitySet="Authority" Role="r_Authority"/></AssociationSet>
+				<AssociationSet Name="r_Company-r_User" Association="SURT_SRV.r_Company-r_User"><End EntitySet="User" Role="r_User"/><End EntitySet="Company" Role="r_Company"/></AssociationSet>
+			</EntityContainer>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

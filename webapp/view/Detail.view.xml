@@ -1,0 +1,131 @@
+<mvc:View controllerName="com.webstersys.surt.user.controller.Detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<semantic:DetailPage id="page" navButtonPress="onNavBack" showNavButton="{device>/system/phone}" title="{i18n>detailTitle}"
+		busy="{detailView>/busy}" busyIndicatorDelay="{detailView>/delay}">
+		<semantic:content>
+			<ObjectHeader id="objectHeader" title="{FirstName} {LastName}" responsive="false" fullScreenOptimized="false">
+				<attributes>
+					<ObjectAttribute title="Id" text="{Id}"/>
+					<ObjectAttribute title="Email" text="{Email}"/>
+					<ObjectAttribute title="Phone Number" text="{PhoneNumber}"/>
+				</attributes>
+				<statuses>
+					<ObjectStatus text="{=${Activated} ? 'Enabled' : 'Disabled'}" state="{=${Activated} ? 'Success' : 'Error'}"/>
+				</statuses>
+			</ObjectHeader>
+			<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter text="Account Info">
+						<f:SimpleForm id="accountInfoForm" layout="ResponsiveGridLayout" backgroundDesign="Translucent" labelSpanXL="3" labelSpanL="3"
+							labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
+							columnsL="1" columnsM="1" singleContainerFullSize="false">
+							<f:content>
+								<Label text="Name"/>
+								<Text text="{FirstName} {LastName}"/>
+								<Label text="Account Type"/>
+								<Text text="{path:'AccountType', formatter: '.core_formatter.accountTypeFormat'}"/>
+								<Label text="Email"/>
+								<Text text="{Email}"/>
+								<Label text="Username"/>
+								<Text text="{Username}"/>
+								<Label text="Phone Number"/>
+								<Text text="{PhoneNumber}"/>
+								<Label text="Website"/>
+								<Text text="{Website}"/>
+							</f:content>
+						</f:SimpleForm>
+					</IconTabFilter>
+					<IconTabFilter text="Manager Info" visible="{path:'AccountType',formatter:'.accountTypeIsNotTeamLead'}">
+						<f:SimpleForm id="managerInfoForm" editable="false" layout="ResponsiveGridLayout" backgroundDesign="Translucent" labelSpanXL="3"
+							labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
+							columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+							<f:content>
+								<Label text="Name"/>
+								<Text text="{Manager/FirstName} {Manager/LastName}"/>
+								<Label text="Email"/>
+								<Text text="{Manager/Email}"/>
+								<Label text="Phone Number"/>
+								<Text text="{Manager/PhoneNumber}"/>
+								<Label text="Website"/>
+								<Text text="{Manager/Website}"/>
+							</f:content>
+						</f:SimpleForm>
+					</IconTabFilter>
+					<IconTabFilter text="Subordinates" visible="{path:'AccountType',formatter:'.accountTypeIsNotTeamMember'}">
+						<Table id="subordinates" width="auto" items="{Subordinate/Users}" updateFinished="onSubordinatesListUpdateFinished"
+							mode="SingleSelectMaster" noDataText="{i18n>subordinatesTableNoDataText}" class="sapUiResponsiveMargin">
+							<columns>
+								<Column>
+									<Text text="Name"/>
+								</Column>
+								<Column>
+									<Text text="Email"/>
+								</Column>
+								<Column hAlign="End">
+									<Text text="Status"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier title="{FirstName} {LastName}"/>
+										<Text text="{Email}"/>
+										<ObjectStatus class="sapUiSmallMarginBottom" text="{=${Activated} ? 'Enabled' : 'Disabled'}" state="{=${Activated} ? 'Success' : 'Error'}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter text="Roles">
+						<Table id="authorities" width="auto" items="{Authorities}" updateFinished="onAuthoritiesListUpdateFinished" mode="None"
+							noDataText="{i18n>authoritiesTableNoDataText}" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar>
+									<content>
+										<Title text="Roles"/>
+										<ToolbarSpacer/>
+									</content>
+								</Toolbar>
+							</headerToolbar>
+							<columns>
+								<Column>
+									<Text text="Code"/>
+								</Column>
+								<Column>
+									<Text text="Name"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier title="{Code}"/>
+										<Text text="{Name}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter text="Company Info">
+						<f:SimpleForm id="companyInfoForm" layout="ResponsiveGridLayout" backgroundDesign="Translucent" labelSpanXL="3" labelSpanL="3"
+							labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
+							columnsL="1" columnsM="1" singleContainerFullSize="false">
+							<f:content>
+								<Label text="Id"/>
+								<Text text="{Company/Id}"/>
+								<Label text="Name"/>
+								<Text text="{Company/CompanyName}"/>
+							</f:content>
+						</f:SimpleForm>
+					</IconTabFilter>
+					
+				</items>
+			</IconTabBar>
+		</semantic:content>
+		<semantic:editAction>
+			<semantic:EditAction id="edit" press="onEdit"/>
+		</semantic:editAction>
+		<semantic:customFooterContent>
+			<Button enabled="true" id="deleteButton" press="onDelete" text="Delete"/>
+		</semantic:customFooterContent>
+	</semantic:DetailPage>
+</mvc:View>

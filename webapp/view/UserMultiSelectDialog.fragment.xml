@@ -1,0 +1,18 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		noDataText="No User Found"
+		title="Select User"
+		search="handleUserMultiSelectDialogSearch"
+		confirm="handleUserMultiSelectDialogClose"
+		cancel="handleUserMultiSelectDialogClose"
+		items="{
+			path: '/UserSet'
+		}" >
+			<StandardListItem
+			title="{FirstName} {LastName}"
+			description="{Id}"
+			type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

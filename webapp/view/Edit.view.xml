@@ -1,0 +1,145 @@
+<mvc:View controllerName="com.webstersys.surt.user.controller.Edit" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form"
+	xmlns:layout="sap.ui.layout">
+	<semantic:DetailPage id="page" navButtonPress="onNavBack" showNavButton="{device>/system/phone}" title="{i18n>detailTitle}"
+		busy="{detailView>/busy}" busyIndicatorDelay="{detailView>/delay}">
+		<semantic:content>
+			<ObjectHeader id="objectHeader" title="{FirstName} {LastName}" responsive="false" fullScreenOptimized="false">
+				<attributes>
+					<ObjectAttribute title="User Id" text="{Id}"/>
+					<ObjectAttribute title="Email" text="{Email}"/>
+					<ObjectAttribute title="Phone Number" text="{PhoneNumber}"/>
+				</attributes>
+				<statuses>
+					<ObjectStatus text="{=${Activated} ? 'Enabled' : 'Disabled'}" state="{=${Activated} ? 'Success' : 'Error'}"/>
+				</statuses>
+			</ObjectHeader>
+			<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter text="Account">
+						<f:SimpleForm id="accountInfoForm" editable="true" layout="ResponsiveGridLayout" backgroundDesign="Translucent"
+							singleContainerFullSize="false" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4"
+							emptySpanL="4" emptySpanM="4" emptySpanS="1" columnsXL="1" columnsL="1" columnsM="1">
+							<f:content>
+								<Label text="Name"/>
+								<Input value="{ path: 'FirstName', type: 'sap.ui.model.type.String',constraints:{minLength:1,maxLength:20}}">
+									<layoutData>
+										<layout:GridData span="L2 M2"/>
+									</layoutData>
+								</Input>
+								<Input value="{ path: 'LastName', type: 'sap.ui.model.type.String',constraints:{minLength:1,maxLength:20}}">
+									<layoutData>
+										<layout:GridData span="L2 M2"/>
+									</layoutData>
+								</Input>
+								<Label text="Email"/>
+								<Input value="{ path: 'Email', type: 'sap.ui.model.type.String',constraints : { search : '\\S+@\\S+\\.\\S+' }}"/>
+								<Label text="Username"/>
+								<Input value="{ path: 'Username', type: 'sap.ui.model.type.String' ,constraints:{minLength:1,maxLength:40}}"/>
+								<Label text="Phone Number"/>
+								<Input value="{PhoneNumber}"/>
+								<Label text="Website"/>
+								<Input value="{Website}"/>
+							</f:content>
+						</f:SimpleForm>
+					</IconTabFilter>
+					<IconTabFilter text="Manager" visible="{path:'AccountType',formatter:'.accountTypeIsNotTeamLead'}">
+						<f:SimpleForm id="managerInfoForm" editable="false" layout="ResponsiveGridLayout" backgroundDesign="Translucent" labelSpanXL="3"
+							labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
+							columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+							<f:toolbar>
+								<Toolbar>
+									<Title text="Manager Information"/>
+									<ToolbarSpacer/>
+									<Button icon="sap-icon://edit" press="onPressManagerAdd" visible="{path:'',formatter:'.currentUserIsAccountOwner'}"/>
+								</Toolbar>
+							</f:toolbar>
+							<f:content>
+								<Label text="Name"/>
+								<Text text="{Manager/FirstName} {Manager/LastName}"/>
+								<Label text="Email"/>
+								<Text text="{Manager/Email}"/>
+								<Label text="Phone Number"/>
+								<Text text="{Manager/PhoneNumber}"/>
+								<Label text="Website"/>
+								<Text text="{Manager/Website}"/>
+							</f:content>
+						</f:SimpleForm>
+					</IconTabFilter>
+					<IconTabFilter text="Subordinates" visible="{path:'AccountType',formatter:'.accountTypeIsNotTeamMember'}">
+						<Table id="subordinates" width="auto" items="{Subordinate/Users}" updateFinished="onSubordinatesListUpdateFinished" mode="MultiSelect"
+							noDataText="{i18n>subordinatesTableNoDataText}" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar>
+									<content>
+										<Title text="Subordinates Information"/>
+										<ToolbarSpacer/>
+										<Button icon="sap-icon://add" press="onPressSubordinatesAdd"/>
+										<Button icon="sap-icon://less" press="onPressSubordinatesRemove"/>
+									</content>
+								</Toolbar>
+							</headerToolbar>
+							<columns>
+								<Column>
+									<Text text="Name"/>
+								</Column>
+								<Column>
+									<Text text="Email"/>
+								</Column>
+								<Column hAlign="End">
+									<Text text="Status"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier title="{FirstName} {LastName}"/>
+										<Text text="{Email}"/>
+										<ObjectStatus class="sapUiSmallMarginBottom" text="{=${Activated} ? 'Enabled' : 'Disabled'}" state="{=${Activated} ? 'Success' : 'Error'}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter text="Roles">
+						<Table id="authorities" width="auto" items="{Authorities}" updateFinished="onAuthoritiesListUpdateFinished" mode="MultiSelect"
+							noDataText="{i18n>authoritiesTableNoDataText}" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar>
+									<content>
+										<Title text="Roles"/>
+										<ToolbarSpacer/>
+										<Button icon="sap-icon://add" press="onPressAuthoritiesAdd"/>
+										<Button icon="sap-icon://less" press="onPressAuthoritiesRemove"/>
+									</content>
+								</Toolbar>
+							</headerToolbar>
+							<columns>
+								<Column>
+									<Text text="Code"/>
+								</Column>
+								<Column>
+									<Text text="Name"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier title="{Code}"/>
+										<Text text="{Name}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</semantic:content>
+		<semantic:saveAction>
+			<semantic:SaveAction id="save" press="onSave"/>
+		</semantic:saveAction>
+		<semantic:cancelAction>
+			<semantic:CancelAction id="cancel" press="onCancel"></semantic:CancelAction>
+		</semantic:cancelAction>
+	</semantic:DetailPage>
+</mvc:View>

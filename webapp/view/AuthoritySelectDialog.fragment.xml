@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="No Roles Found" title="Select Role" search="handleAuthoritySelectDialogSearch"
+		confirm="handleAuthoritySelectDialogClose" cancel="handleAuthoritySelectDialogClose" items="{ path: 'Authorities' }">
+		<StandardListItem title="{Name}" description="{Code}" type="Active"/>
+	</SelectDialog>
+</core:FragmentDefinition>

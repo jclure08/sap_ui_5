@@ -1,0 +1,64 @@
+{
+  "routes": [{
+		"path": "/webapp/resources/com/webstersys/surt/surt_core",
+		"target": {
+			"type": "application",
+			"name": "surtcore"
+		},
+		"description": ""
+	}, {
+		"path": "/resources/com/webstersys/surt/surt_core",
+		"target": {
+			"type": "application",
+			"name": "surtcore"
+		},
+		"description": ""
+	},
+    {
+      "path": "/webapp/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/webapp/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/SURT",
+      "target": {
+        "type": "destination",
+        "name": "SURT"
+      },
+      "description": "SURT Application"
+    }
+  ],
+  "welcomeFile": "/webapp/test/flpSandbox.html",
+  "sendWelcomeFileRedirect": true
+}
